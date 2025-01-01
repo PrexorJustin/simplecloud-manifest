@@ -1,0 +1,21 @@
+#!/bin/sh
+
+detect_os() {
+    case "$(uname -s)" in
+        *NT*|MSYS*|MINGW*) echo "windows" ;;
+        Darwin) echo "mac" ;;
+        Linux) echo "linux" ;;
+        *) echo "unknown" ;;
+    esac
+}
+
+OS=$(detect_os)
+case "$OS" in
+    windows)
+        curl -o install.bat https://raw.githubusercontent.com/PrexorJustin/simplecloud-manifest/refs/heads/main/install.bat
+        cmd.exe //c install.bat
+        ;;
+    *)
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/PrexorJustin/simplecloud-manifest/refs/heads/main/install.sh)" && sc setup
+        ;;
+esac
